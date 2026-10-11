@@ -8,10 +8,12 @@ vim.o.termguicolors = true
 
 -- Line numbers (must use vim.opt to override NvChad defaults)
 o.number = true           -- Show absolute line number on current line
-o.relativenumber = true   -- Show relative line numbers
+o.relativenumber = false  -- Show absolute line numbers on every line by default
 o.cursorline = true       -- Highlight current line
+o.mouse = "a"             -- Enable mouse support in the editor and file tree
 o.signcolumn = "yes"      -- Always show sign column (for breakpoints, git, etc.)
 o.numberwidth = 4         -- Width of line number column
+o.foldcolumn = "0"        -- Hide fold-level digits beside line numbers
 
 -- Consistent automatic indentation across languages (2 spaces by default).
 o.expandtab = true

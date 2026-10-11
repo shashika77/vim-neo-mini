@@ -7,6 +7,7 @@ map("n", ";", ":", { desc = "CMD enter command mode", nowait = true })
 map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file tree" })
 map("n", "<leader>o", "<cmd>Telescope find_files<CR>", { desc = "Open file" })
+map("n", "<leader>rn", "<cmd>set norelativenumber<CR>", { desc = "Use normal line numbers" })
 map("n", "<leader>q", "<cmd>confirm bdelete<CR>", { desc = "Close buffer safely" })
 map("n", "<leader>Q", "<cmd>confirm qall<CR>", { desc = "Quit all safely" })
 map("n", "<leader>p", '"+p', { desc = "Paste from system clipboard" })
@@ -20,6 +21,55 @@ map("n", "<leader><Up>", "<cmd>wincmd k<CR>", { desc = "Focus pane above" })
 map("n", "<leader><Right>", "<cmd>wincmd l<CR>", { desc = "Focus pane to the right" })
 map("n", "<leader><Tab>", function() require("nvchad.tabufline").next() end, { desc = "Next open file" })
 map("n", "<leader><S-Tab>", function() require("nvchad.tabufline").prev() end, { desc = "Previous open file" })
+
+-- Start the current JavaScript project's dev server in a terminal split.
+local function start_web_dev()
+  local package_file = vim.fs.find("package.json", { upward = true, path = vim.fn.getcwd() })[1]
+  if not package_file then
+    vim.notify("No package.json found. Open Neovim from a web project.", vim.log.levels.WARN)
+    return
+  end
+
+  local ok, package = pcall(vim.json.decode, table.concat(vim.fn.readfile(package_file), "\n"))
+  if not ok or type(package) ~= "table" then
+    vim.notify("Could not read the project's package.json.", vim.log.levels.ERROR)
+    return
+  end
+
+  local scripts = package.scripts or {}
+  local script = scripts.dev and "dev" or (scripts.start and "start")
+  if not script then
+    vim.notify("No 'dev' or 'start' script found in package.json.", vim.log.levels.WARN)
+    return
+  end
+
+  local root = vim.fs.dirname(package_file)
+  local manager = "npm"
+  local lockfiles = {
+    { "pnpm-lock.yaml", "pnpm" },
+    { "yarn.lock", "yarn" },
+    { "bun.lock", "bun" },
+    { "bun.lockb", "bun" },
+  }
+  for _, entry in ipairs(lockfiles) do
+    if vim.fn.filereadable(root .. "/" .. entry[1]) == 1 and vim.fn.executable(entry[2]) == 1 then
+      manager = entry[2]
+      break
+    end
+  end
+
+  if vim.fn.executable(manager) ~= 1 then
+    vim.notify("Package manager '" .. manager .. "' is not installed.", vim.log.levels.ERROR)
+    return
+  end
+
+  vim.cmd("botright 12new")
+  vim.fn.termopen({ manager, "run", script }, { cwd = root })
+  vim.cmd("startinsert")
+end
+
+vim.api.nvim_create_user_command("WebDev", start_web_dev, { desc = "Start the project web dev server" })
+map("n", "<leader>tp", start_web_dev, { desc = "Start web preview server" })
 map("n", "<leader>gg", "<cmd>!golines . -w<CR>", { desc = "Run golines" })
 map("n", "<leader>bb", "<cmd>!black .<CR>", { desc = "Run black" })
 

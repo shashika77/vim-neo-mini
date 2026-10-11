@@ -12,6 +12,7 @@ M.base46 = {
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
+    CursorLineNr = { fg = "#E5C07B", bold = true },
 
     -- Imported packages/namespaces - Purple (IntelliJ-like)
     ["@lsp.type.namespace"] = { fg = "#C678DD" },

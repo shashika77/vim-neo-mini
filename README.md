@@ -1,15 +1,14 @@
-<<<<<<< HEAD
 # Neovim setup backup
 
 This package backs up the current Neovim configuration, including its plugin lockfile. It does not bundle Neovim itself or downloaded plugins/tools; those are installed on the destination computer.
 
 ## What this setup can do
 
-- VS Code-like syntax colors, status line, line numbers, indent guides, and code folding.
+- VS Code-like syntax colors, status line, absolute line numbers, a highlighted current line number, indent guides, and code folding without a fold-level number column. `Space n` toggles line numbers; `Space r n` restores regular sequential numbers and keeps relative numbers off.
 - Automatic indentation: two spaces by default, four spaces for Python and Rust, tabs for Go, and literal tabs for Makefiles.
 - Auto-format on save: Prettier for JavaScript/TypeScript, JSX/TSX, CSS, HTML, JSON, Markdown, Vue, Svelte, and related files; Black for Python; plus formatters for Lua, Go, Rust, and YAML.
 - Regular non-AI completion from language servers, snippets, words in the current buffer, and file paths. In Insert mode, press Tab to accept a suggestion, or Ctrl-Space to open the suggestions menu. JavaScript/React/TypeScript completion can suggest project exports and add their import when accepted.
-- Language-server diagnostics for supported languages, shown inline and in the sign column; hover documentation, go-to-definition, references, rename, and code actions.
+- Language-server diagnostics for supported languages, shown inline and in the sign column; hover documentation, go-to-definition, references, rename, and code actions. Mouse support lets you double-click a code symbol to open its definition.
 - File navigation, search, Git diff/history, TODO markers, folding, and debugging support.
 
 Formatters and language servers only work for languages with the relevant tool installed and available. The first launch on a new computer installs the configured Neovim plugins and Mason tools.
@@ -46,6 +45,13 @@ To install the configuration manually, copy the package's `nvim` folder to `~/.c
 | `Space f w` | Search text across the project |
 | `Space f b` | Find a file you already have open |
 | `Space f o` | Reopen a recent file |
+
+### Live web preview while coding
+
+1. Open Neovim from your web project's folder (the folder with `package.json`).
+2. Press `Space t p` to start its `dev` script in a terminal split. If there is no `dev` script, the shortcut tries `start`. It chooses pnpm, Yarn, or Bun when a matching lockfile and command are present; otherwise it uses npm.
+3. Open the local URL printed in the terminal in your browser. Save code in Neovim; frameworks such as Vite, Astro, and Next.js refresh the browser when their dev server detects the change.
+4. To stop the server, focus its terminal and press `Ctrl-c`. Press `Ctrl-x` to leave terminal input mode.
 
 ### Auto-import a React or project component
 
@@ -108,18 +114,19 @@ Example: press `Esc`, then `Ctrl-a`, then `"+y` to copy the whole file so you ca
 | `Space b` | Open a new empty buffer |
 | `Space` + `Tab` / `Shift-Tab` | Next / previous open file |
 | `Space s v` / `Space s h` | Create vertical / horizontal split |
-| `Space` + arrow key | Move focus between the file tree and editor panes |
+| `Space` + arrow key | Move focus between the file tree, editor, and terminal panes |
+| `Space t p` | Start the project web preview server |
 | `Space fm` | Format the current buffer now |
-| `Tab` while a completion menu is open | Accept the selected suggestion |
+| `zR` / `zM` | Open all / close all code folds |
+| `Up` / `Down` while typing | Choose a completion suggestion |
+| `Tab` or `Enter` while the menu is open | Accept the selected suggestion |
 | `Ctrl-Space` in Insert mode | Open completion suggestions |
 | `K` | Show documentation for the symbol under the cursor |
-| `gd` / `gr` | Go to definition / show references |
+| Double-click a code symbol / `gd` | Go to its definition (including imported components when the language server resolves them) |
+| `Ctrl-o` | Return to where you jumped from |
+| `gr` | Show references |
 | `Space ra` / `Space ca` | Rename symbol / show code actions |
 | `Space xx` / `Space xd` | Show all diagnostics / current-file diagnostics |
 | `F5`, `F10`, `F11`, `F12` | Start/continue, step over, step into, step out in a debug session |
 
 You can press Space and pause to see available key hints, or use `Space f k` to search keymaps. `:Mason` manages language tools and `:Lazy` manages plugins.
-=======
-# vim-neo-mini
-Neovim setup backup
->>>>>>> origin/main

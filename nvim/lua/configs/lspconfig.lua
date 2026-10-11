@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local map = vim.keymap.set
     map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
     map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+    map("n", "<2-LeftMouse>", vim.lsp.buf.definition, opts "Double-click to go to definition")
     map("n", "gi", vim.lsp.buf.implementation, opts "Go to implementation")
     map("n", "gr", vim.lsp.buf.references, opts "Show references")
     map("n", "K", vim.lsp.buf.hover, opts "Hover documentation")

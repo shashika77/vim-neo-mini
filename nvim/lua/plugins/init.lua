@@ -8,6 +8,8 @@ return {
       opts.completion = opts.completion or {}
       opts.completion.autocomplete = { cmp.TriggerEvent.TextChanged }
       opts.mapping = opts.mapping or {}
+      opts.mapping["<Down>"] = cmp.mapping.select_next_item()
+      opts.mapping["<Up>"] = cmp.mapping.select_prev_item()
       opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.confirm({ select = true })
@@ -307,7 +309,7 @@ return {
       end,
     },
     init = function()
-      vim.o.foldcolumn = "1"
+      vim.o.foldcolumn = "0"
       vim.o.foldlevel = 99
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
