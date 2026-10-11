@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Neovim setup backup
 
 This package backs up the current Neovim configuration, including its plugin lockfile. It does not bundle Neovim itself or downloaded plugins/tools; those are installed on the destination computer.
@@ -118,3 +119,7 @@ Example: press `Esc`, then `Ctrl-a`, then `"+y` to copy the whole file so you ca
 | `F5`, `F10`, `F11`, `F12` | Start/continue, step over, step into, step out in a debug session |
 
 You can press Space and pause to see available key hints, or use `Space f k` to search keymaps. `:Mason` manages language tools and `:Lazy` manages plugins.
+=======
+# vim-neo-mini
+Neovim setup backup
+>>>>>>> origin/main
