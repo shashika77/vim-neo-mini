@@ -161,6 +161,7 @@ nvim
 |--------|-------------|
 | [max397574/better-escape.nvim](https://github.com/max397574/better-escape.nvim) | Better escape sequences |
 | [m4xshen/autoclose.nvim](https://github.com/m4xshen/autoclose.nvim) | Auto-close brackets |
+| [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Auto-close and auto-rename HTML/XML/JSX tags |
 
 ### Debugging
 
@@ -260,6 +261,9 @@ nvim
 | Key | Mode | Action |
 |-----|------|--------|
 | `gd` | n | Go to definition |
+| `Ctrl+Click` | n, i, v | Go to definition (open imported file/symbol) |
+| `Double Click` | n | Go to definition |
+| `Ctrl-o` | n | Jump back to previous position |
 | `gD` | n | Go to declaration |
 | `gi` | n | Go to implementation |
 | `gr` | n | Show references |

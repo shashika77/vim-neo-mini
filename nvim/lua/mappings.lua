@@ -1,4 +1,4 @@
-require "nvchad.mappings"
+require("nvchad.mappings")
 
 local map = vim.keymap.set
 
@@ -19,53 +19,57 @@ map("n", "<leader><Left>", "<cmd>wincmd h<CR>", { desc = "Focus pane to the left
 map("n", "<leader><Down>", "<cmd>wincmd j<CR>", { desc = "Focus pane below" })
 map("n", "<leader><Up>", "<cmd>wincmd k<CR>", { desc = "Focus pane above" })
 map("n", "<leader><Right>", "<cmd>wincmd l<CR>", { desc = "Focus pane to the right" })
-map("n", "<leader><Tab>", function() require("nvchad.tabufline").next() end, { desc = "Next open file" })
-map("n", "<leader><S-Tab>", function() require("nvchad.tabufline").prev() end, { desc = "Previous open file" })
+map("n", "<leader><Tab>", function()
+	require("nvchad.tabufline").next()
+end, { desc = "Next open file" })
+map("n", "<leader><S-Tab>", function()
+	require("nvchad.tabufline").prev()
+end, { desc = "Previous open file" })
 
 -- Start the current JavaScript project's dev server in a terminal split.
 local function start_web_dev()
-  local package_file = vim.fs.find("package.json", { upward = true, path = vim.fn.getcwd() })[1]
-  if not package_file then
-    vim.notify("No package.json found. Open Neovim from a web project.", vim.log.levels.WARN)
-    return
-  end
+	local package_file = vim.fs.find("package.json", { upward = true, path = vim.fn.getcwd() })[1]
+	if not package_file then
+		vim.notify("No package.json found. Open Neovim from a web project.", vim.log.levels.WARN)
+		return
+	end
 
-  local ok, package = pcall(vim.json.decode, table.concat(vim.fn.readfile(package_file), "\n"))
-  if not ok or type(package) ~= "table" then
-    vim.notify("Could not read the project's package.json.", vim.log.levels.ERROR)
-    return
-  end
+	local ok, package = pcall(vim.json.decode, table.concat(vim.fn.readfile(package_file), "\n"))
+	if not ok or type(package) ~= "table" then
+		vim.notify("Could not read the project's package.json.", vim.log.levels.ERROR)
+		return
+	end
 
-  local scripts = package.scripts or {}
-  local script = scripts.dev and "dev" or (scripts.start and "start")
-  if not script then
-    vim.notify("No 'dev' or 'start' script found in package.json.", vim.log.levels.WARN)
-    return
-  end
+	local scripts = package.scripts or {}
+	local script = scripts.dev and "dev" or (scripts.start and "start")
+	if not script then
+		vim.notify("No 'dev' or 'start' script found in package.json.", vim.log.levels.WARN)
+		return
+	end
 
-  local root = vim.fs.dirname(package_file)
-  local manager = "npm"
-  local lockfiles = {
-    { "pnpm-lock.yaml", "pnpm" },
-    { "yarn.lock", "yarn" },
-    { "bun.lock", "bun" },
-    { "bun.lockb", "bun" },
-  }
-  for _, entry in ipairs(lockfiles) do
-    if vim.fn.filereadable(root .. "/" .. entry[1]) == 1 and vim.fn.executable(entry[2]) == 1 then
-      manager = entry[2]
-      break
-    end
-  end
+	local root = vim.fs.dirname(package_file)
+	local manager = "npm"
+	local lockfiles = {
+		{ "pnpm-lock.yaml", "pnpm" },
+		{ "yarn.lock", "yarn" },
+		{ "bun.lock", "bun" },
+		{ "bun.lockb", "bun" },
+	}
+	for _, entry in ipairs(lockfiles) do
+		if vim.fn.filereadable(root .. "/" .. entry[1]) == 1 and vim.fn.executable(entry[2]) == 1 then
+			manager = entry[2]
+			break
+		end
+	end
 
-  if vim.fn.executable(manager) ~= 1 then
-    vim.notify("Package manager '" .. manager .. "' is not installed.", vim.log.levels.ERROR)
-    return
-  end
+	if vim.fn.executable(manager) ~= 1 then
+		vim.notify("Package manager '" .. manager .. "' is not installed.", vim.log.levels.ERROR)
+		return
+	end
 
-  vim.cmd("botright 12new")
-  vim.fn.termopen({ manager, "run", script }, { cwd = root })
-  vim.cmd("startinsert")
+	vim.cmd("botright 12new")
+	vim.fn.termopen({ manager, "run", script }, { cwd = root })
+	vim.cmd("startinsert")
 end
 
 vim.api.nvim_create_user_command("WebDev", start_web_dev, { desc = "Start the project web dev server" })
@@ -108,9 +112,9 @@ map("x", "<leader>p", '"_dP', { desc = "Paste without yank" })
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
 map("n", "<C-a>", "ggVG", { desc = "Select all" })
 map("n", "<leader>cp", function()
-  local path = vim.fn.expand("%:p")
-  vim.fn.setreg("+", path)
-  vim.notify("Copied: " .. path, vim.log.levels.INFO)
+	local path = vim.fn.expand("%:p")
+	vim.fn.setreg("+", path)
+	vim.notify("Copied: " .. path, vim.log.levels.INFO)
 end, { desc = "Copy file path" })
 
 -- Buffer navigation
@@ -118,23 +122,47 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- Quick formatting
-map("n", "<leader>fm", function() require("conform").format() end, { desc = "Format buffer" })
+map("n", "<leader>fm", function()
+	require("conform").format()
+end, { desc = "Format buffer" })
 
 -- ============================================
 -- FOLDING (nvim-ufo)
 -- ============================================
-map("n", "zR", function() require("ufo").openAllFolds() end, { desc = "Open all folds" })
-map("n", "zM", function() require("ufo").closeAllFolds() end, { desc = "Close all folds" })
-map("n", "zK", function() require("ufo").peekFoldedLinesUnderCursor() end, { desc = "Peek fold" })
+map("n", "zR", function()
+	require("ufo").openAllFolds()
+end, { desc = "Open all folds" })
+map("n", "zM", function()
+	require("ufo").closeAllFolds()
+end, { desc = "Close all folds" })
+map("n", "zK", function()
+	require("ufo").peekFoldedLinesUnderCursor()
+end, { desc = "Peek fold" })
 
 -- ============================================
 -- TODO COMMENTS
 -- ============================================
-map("n", "]t", function() require("todo-comments").jump_next() end, { desc = "Next TODO" })
-map("n", "[t", function() require("todo-comments").jump_prev() end, { desc = "Prev TODO" })
+map("n", "]t", function()
+	require("todo-comments").jump_next()
+end, { desc = "Next TODO" })
+map("n", "[t", function()
+	require("todo-comments").jump_prev()
+end, { desc = "Prev TODO" })
 map("n", "<leader>td", "<cmd>TodoTelescope<cr>", { desc = "Todo Telescope" })
 
 -- ============================================
 -- TELESCOPE
 -- ============================================
 map("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymaps" })
+
+-- Duplicate current line in normal mode
+map("n", "<leader>d", "yyp", { desc = "Duplicate line" })
+
+-- Duplicate current selection in visual mode
+map("x", "<leader>d", "y'>p", { desc = "Duplicate selection" })
+
+-- ============================================
+-- MOUSE / DEFINITION (VS Code style Ctrl+Click)
+-- ============================================
+map({ "n", "v" }, "<C-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Ctrl-Click to go to definition" })
+map("i", "<C-LeftMouse>", "<Esc><LeftMouse><cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Ctrl-Click to go to definition" })

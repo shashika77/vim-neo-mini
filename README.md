@@ -8,7 +8,7 @@ This package backs up the current Neovim configuration, including its plugin loc
 - Automatic indentation: two spaces by default, four spaces for Python and Rust, tabs for Go, and literal tabs for Makefiles.
 - Auto-format on save: Prettier for JavaScript/TypeScript, JSX/TSX, CSS, HTML, JSON, Markdown, Vue, Svelte, and related files; Black for Python; plus formatters for Lua, Go, Rust, and YAML.
 - Regular non-AI completion from language servers, snippets, words in the current buffer, and file paths. In Insert mode, press Tab to accept a suggestion, or Ctrl-Space to open the suggestions menu. JavaScript/React/TypeScript completion can suggest project exports and add their import when accepted.
-- Language-server diagnostics for supported languages, shown inline and in the sign column; hover documentation, go-to-definition, references, rename, and code actions. Mouse support lets you double-click a code symbol to open its definition.
+- Language-server diagnostics for supported languages, shown inline and in the sign column; hover documentation, go-to-definition, references, rename, and code actions. Mouse support lets you Ctrl-Click (or double-click) an imported component or code symbol to open its definition and file. Press Ctrl-o to jump back.
 - File navigation, search, Git diff/history, TODO markers, folding, and debugging support.
 
 Formatters and language servers only work for languages with the relevant tool installed and available. The first launch on a new computer installs the configured Neovim plugins and Mason tools.
